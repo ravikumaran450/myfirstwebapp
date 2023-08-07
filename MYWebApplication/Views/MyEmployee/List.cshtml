@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MYWebApplication.Models.Employee>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>EmployeeList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectManagerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpDesignation)
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>       
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectManagerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpDesignation)
+            </td>
+            <td>
+                @Html.ActionLink("update", "Edit", new { empid = item.EmpID }) |
+                @Html.ActionLink("Details", "Details", new { empid = item.EmpID }) |
+                @Html.ActionLink("Delete", "Delete", new { empid = item.EmpID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
