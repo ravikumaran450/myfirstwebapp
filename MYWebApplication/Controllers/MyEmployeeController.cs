@@ -42,10 +42,15 @@ namespace MYWebApplication.Controllers
                     if (user != null)
                     {
                         HttpContext.Session.SetString("UserName", user.UserName);
-                        HttpContext.Session.SetString("Role", user.UserName);
-
-                        return RedirectToAction("List");
-
+                        HttpContext.Session.SetString("Role", user.Role);
+                        if (user.Role.Equals("Project Manager"))
+                        {
+                            return RedirectToAction("Create");
+                        }
+                        else
+                        {
+                            return RedirectToAction("List");
+                        }
                     }
                     
                 }
@@ -58,8 +63,22 @@ namespace MYWebApplication.Controllers
         }
         public ActionResult Signup()
         {
-            return View();
+              return View();
+                      
         }
+                
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(LoginUser loginUser)
+        {
+            ActionClass obj = new ActionClass();
+            obj.RegEmployee(loginUser);
+
+            return RedirectToAction("Login");
+        }
+
+
         [Authentication]
         public ActionResult List()
         {

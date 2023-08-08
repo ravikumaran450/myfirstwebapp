@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace MYWebApplication.DataAccess
 {
     public class ActionClass
@@ -135,7 +136,7 @@ namespace MYWebApplication.DataAccess
         {
             using (EmployeeProjectContext db = new EmployeeProjectContext())
             {
-               LoginUser obj = db.LoginUser.Where(a => a.UserName.Equals(u.UserName) && a.Passward.Equals(u.Passward)).FirstOrDefault();
+               LoginUser obj = db.LoginUser.Where(a => a.UserName.Equals(u.UserName) && a.Password.Equals(u.Password)||a.FullName.Equals(a.FullName)||a.ConfirmPassword.Equals(a.ConfirmPassword) ||a.Role.Equals(a.Role)).FirstOrDefault();
                 if (obj != null)
                 {
                     return obj;
@@ -144,6 +145,26 @@ namespace MYWebApplication.DataAccess
             }
             return null;
         }
+        public void RegEmployee(LoginUser loginUser)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectingString))
+            {
+                SqlCommand cmd = new SqlCommand("RegEmployee", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserName", loginUser.UserName);
+                cmd.Parameters.AddWithValue("@Password", loginUser.Password);
+                cmd.Parameters.AddWithValue("@FullName", loginUser.FullName);
+                cmd.Parameters.AddWithValue("@ConfirmPassword", loginUser.ConfirmPassword);
+                cmd.Parameters.AddWithValue("@Role", loginUser.Role);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+            }
+        
+    }
     
 }
 }
